@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: gateway-web-app 
-        image: gcr.io/ctse-assignment-2/order-service-image:latest  # Be sure to replace with your actual image
+        image: gcr.io/ctse-assignment-2/gateway-image:latest  # Be sure to replace with your actual image
         ports:
         - containerPort: 5003  # The port your container exposes
 

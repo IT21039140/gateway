@@ -7,8 +7,8 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GKE_CLUSTER: ctse-autopilot-cluster-1  # Change this to your cluster's name 11111
-  GKE_ZONE: asia-south2    # Change this to your cluster's zone
+  GKE_CLUSTER: ctse-autopilot-cluster-2  # Change this to your cluster's name 11111
+  GKE_ZONE: asia-southeast1   # Change this to your cluster's zone
   IMAGE: gcr.io/${{ secrets.GCP_PROJECT_ID }}/gateway-image:latest
 
 jobs:
@@ -24,6 +24,18 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
         service_account_key: ${{ secrets.GCP_SA_KEY }}
         export_default_credentials: true
+
+    - name: Install Snyk
+      run: npm install -g snyk
+
+    - name: Snyk Authorization
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+    - name: Snyk Test for Vulnerabilities
+      run: snyk test || true
+
+    - name: Snyk Monitor Project
+      run: snyk monitor
 
     - name: Build and Push Docker image
       run: |
